@@ -3,8 +3,9 @@ import { StatusCodes } from "http-status-codes";
 import { Types } from "mongoose";
 import { UserService } from "./user.service.js";
 import { IUser } from "./user.interface.js";
-import { AppError } from "../../middlewares/app-error.js";
+import { AppError } from "../../errorHelpers/app-error.js";
 import { catchAsync } from "../../middlewares/catch-async.js";
+import { sendResponse } from "../../../utils/sendResponse.js";
 
 /**
  * Create User
@@ -15,7 +16,8 @@ export const createUser = catchAsync(
 
     const user = await UserService.createUser(payload);
 
-    res.status(StatusCodes.CREATED).json({
+    sendResponse(res, {
+      statusCode: StatusCodes.CREATED,
       success: true,
       message: "User created successfully",
       data: user,
@@ -30,7 +32,8 @@ export const getAllUsers = catchAsync(
   async (_req: Request, res: Response) => {
     const users = await UserService.getAllUsers();
 
-    res.status(StatusCodes.OK).json({
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
       success: true,
       message: "Users retrieved successfully",
       data: users,
@@ -55,7 +58,8 @@ export const getSingleUser = catchAsync(
       throw new AppError("User not found", StatusCodes.NOT_FOUND);
     }
 
-    res.status(StatusCodes.OK).json({
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
       success: true,
       message: "User retrieved successfully",
       data: user,
@@ -80,7 +84,8 @@ export const updateUser = catchAsync(
       throw new AppError("User not found", StatusCodes.NOT_FOUND);
     }
 
-    res.status(StatusCodes.OK).json({
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
       success: true,
       message: "User updated successfully",
       data: updatedUser,
@@ -105,9 +110,11 @@ export const deleteUser = catchAsync(
       throw new AppError("User not found", StatusCodes.NOT_FOUND);
     }
 
-    res.status(StatusCodes.OK).json({
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
       success: true,
       message: "User deleted successfully",
+      data: null,
     });
   }
 );

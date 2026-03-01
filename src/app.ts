@@ -1,7 +1,8 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import router from "./app/routes/index.js";
-import { globalErrorHandler } from "./app/middlewares/error-handler.js";
+import { globalErrorHandlers } from "./app/middlewares/globalErrorHandlers.js";
+import { notFound } from "./app/middlewares/not-found.js";
 
 const app = express();
 app.use(cors());
@@ -16,8 +17,7 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
-
-app.use(globalErrorHandler);
-
+app.use(globalErrorHandlers);
+app.use(notFound);
 
 export default app;
