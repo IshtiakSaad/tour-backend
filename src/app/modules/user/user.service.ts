@@ -11,8 +11,8 @@ export class UserService {
   /**
    * Create a new user
    */
-  static async createUser(userData: Partial<IUser>): Promise<IUser> {
-    const user = new User(userData);
+  static async createUser(payload: Partial<IUser>): Promise<IUser> {
+    const user = new User(payload);
     return await user.save();
   }
 
